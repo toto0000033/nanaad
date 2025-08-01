@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NANAD</title>
+  <style>
+    body {
+      margin: 0;
+      background: #fff0f8;
+      overflow: hidden;
+    }
+
+    .container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .love {
+      position: absolute;
+      color: #e91e63;
+      font-weight: bold;
+      font-family: 'Segoe UI', sans-serif;
+      text-shadow: 0 0 8px #ff99cc;
+      transform: translate(-50%, -50%);
+      white-space: nowrap;
+      font-size: 14px;
+      pointer-events: none;
+    }
+
+    .note {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #c2185b;
+      font-family: sans-serif;
+      background: rgba(255,255,255,0.8);
+      padding: 6px 12px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #f48fb1;
+    }
+  </style>
+</head>
+<body>
+  <div class=
+  <div class="container" id="container"></div>
+  <audio id="bgMusic" loop>
+    <source src="https://pixabay.com/id/users/alanajordan-25247407/" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    const container = document.getElementById("container");
+    const jumlah = 120;
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    const texts = [];
+
+    for (let i = 0; i < jumlah; i++) {
+      const span = document.createElement("div");
+      span.className = "love";
+      span.textContent = "NADIA ELEK";
+      container.appendChild(span);
+      texts.push({ el: span, angle: (Math.PI * 2 * i) / jumlah });
+    }
+
+    let angleOffset = 0;
+
+    function animate() {
+      angleOffset += 0.002;
+      texts.forEach((obj) => {
+        const t = obj.angle + angleOffset;
+        const x = 16 * Math.pow(Math.sin(t), 3);
+        const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+        obj.el.style.left = centerX + x * 20 + "px";
+        obj.el.style.top = centerY - y * 20 + "px";
+      });
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // Putar musik saat user klik layar
+    const audio = document.getElementById("bgMusic");
+    document.body.addEventListener("click", () => {
+      audio.play();
+      document.querySelector(".note").style.display = "none";
+    });
+  </script>
+</body>
+</html>
